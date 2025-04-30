@@ -72,31 +72,34 @@ namespace GAG.EasyLeaderboard
 
         void LoadLeaderboard(Leaderboard leaderboard)
         {
-            if (EasyLeaderboardManager.Instance.EntryFormat == EasyLeaderboardUtility.EntryFormat.NameScore)
+            var format = EasyLeaderboardManager.Instance.EntryFormat;
+            var useScoreSort = EasyLeaderboardManager.Instance.UseScoreSortingInNameScoreTime;
+
+            switch (format)
             {
-                leaderboard.SortByScoreDescending();
-                _headerScoreText.SetActive(true);
-                _headerTimeText.SetActive(false);
-            }
-            else if (EasyLeaderboardManager.Instance.EntryFormat == EasyLeaderboardUtility.EntryFormat.NameTime)
-            {
-                leaderboard.SortByTimeAscending();
-                _headerScoreText.SetActive(false);
-                _headerTimeText.SetActive(true);
-            }
-            else if (EasyLeaderboardManager.Instance.EntryFormat == EasyLeaderboardUtility.EntryFormat.NameScoreTime)
-            {
-                if(EasyLeaderboardManager.Instance.UseScoreSortingInNameScoreTime)
-                {
+                case EasyLeaderboardUtility.EntryFormat.NameScore:
                     leaderboard.SortByScoreDescending();
-                }
-                else
-                {
+                    if (_headerScoreText != null) _headerScoreText.SetActive(true);
+                    if (_headerTimeText != null) _headerTimeText.SetActive(false);
+                    break;
+
+                case EasyLeaderboardUtility.EntryFormat.NameTime:
                     leaderboard.SortByTimeAscending();
-                }
-                _headerScoreText.SetActive(true);
-                _headerTimeText.SetActive(true);
+                    if (_headerScoreText != null) _headerScoreText.SetActive(false);
+                    if (_headerTimeText != null) _headerTimeText.SetActive(true);
+                    break;
+
+                case EasyLeaderboardUtility.EntryFormat.NameScoreTime:
+                    if (useScoreSort)
+                        leaderboard.SortByScoreDescending();
+                    else
+                        leaderboard.SortByTimeAscending();
+
+                    if (_headerScoreText != null) _headerScoreText.SetActive(true);
+                    if (_headerTimeText != null) _headerTimeText.SetActive(true);
+                    break;
             }
+
             // Clear existing entries
             foreach (Transform child in _entryParent)
                 {
