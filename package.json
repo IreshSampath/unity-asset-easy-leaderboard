@@ -1,0 +1,33 @@
+﻿{
+  "name": "com.ireshsampath.unity-assets.easy-leaderboard",
+  "version": "1.0.0",
+  "displayName": "Easy Leaderboard",
+  "description": "Easy Leaderboard is a Unity asset designed to simplify the creation and display of player leaderboards. It offers flexible UI integration, sorting options, and out-of-the-box support for local and online data.",
+  "unity": "6000.0",
+  "unityRelease": "30f1",
+  "documentationUrl": "https://example.com/easy-leaderboard-docs",
+  "changelogUrl": "https://example.com/easy-leaderboard-changelog.html",
+  "licensesUrl": "https://example.com/easy-leaderboard-licensing.html",
+  "dependencies": {
+    "com.unity.textmeshpro": "5.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Easy Leaderboard Sample",
+      "description": "An example scene demonstrating how to integrate and use Easy Leaderboard.",
+      "path": "Samples~/Sample 1"
+    }
+  ],
+  "keywords": [
+    "leaderboard",
+    "unity leaderboard",
+    "scoreboard",
+    "ranking",
+    "easy leaderboard"
+  ],
+  "author": {
+    "name": "Iresh Sampath",
+    "email": "ireshsampath@gmail.com",
+    "url": "https://ireshsampath.portfoliobox.io/"
+  }
+}
