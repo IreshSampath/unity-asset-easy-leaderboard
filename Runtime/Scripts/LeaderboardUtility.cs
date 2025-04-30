@@ -1,143 +1,147 @@
+using GAG.EasyLeaderboard;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 
-public static class LeaderboardUtility
+namespace GAG.EasyLeaderboard
 {
-    public enum LeaderboardType { JSON, CSV }
-    public enum EntryFormat { NameScore, NameTime, NameScoreTime }
-    public enum LeaderboardDeployPlatform { PC, Android, IOS }
-
-    public static void SaveLeaderboard(Leaderboard leaderboard, string path, LeaderboardType type, EntryFormat format, bool allowDuplicates)
+    public static class LeaderboardUtility
     {
-        switch (type)
+        public enum LeaderboardType { JSON, CSV }
+        public enum EntryFormat { NameScore, NameTime, NameScoreTime }
+        public enum LeaderboardDeployPlatform { PC, Android, IOS }
+
+        public static void SaveLeaderboard(Leaderboard leaderboard, string path, LeaderboardType type, EntryFormat format, bool allowDuplicates)
         {
-            case LeaderboardType.JSON:
-                SaveAsJSON(leaderboard, path, format, allowDuplicates);
-                break;
-            case LeaderboardType.CSV:
-                SaveAsCSV(leaderboard, path, format, allowDuplicates);
-                break;
-        }
-    }
-
-    public static Leaderboard LoadLeaderboard(string path, LeaderboardType type)
-    {
-        return type switch
-        {
-            LeaderboardType.JSON => LoadFromJSON(path),
-            LeaderboardType.CSV => LoadFromCSV(path),
-            _ => new Leaderboard()
-        };
-    }
-
-    public static void EnsureFileExists(string path)
-    {
-        if (!File.Exists(path))
-        {
-            Debug.Log("Leaderboard file not found. Creating new file...");
-            File.WriteAllText(path, JsonUtility.ToJson(new Leaderboard(), true));
-        }
-    }
-
-    private static void SaveAsJSON(Leaderboard leaderboard, string path, EntryFormat format, bool allowDuplicates)
-    {
-        Leaderboard existing = File.Exists(path)
-            ? JsonUtility.FromJson<Leaderboard>(File.ReadAllText(path))
-            : new Leaderboard();
-
-        MergeEntries(existing, leaderboard, format, allowDuplicates);
-
-        File.WriteAllText(path, JsonUtility.ToJson(existing, true));
-        Debug.Log("Saved JSON leaderboard to: " + path);
-    }
-
-    private static Leaderboard LoadFromJSON(string path)
-    {
-        if (!File.Exists(path)) return new Leaderboard();
-
-        string json = File.ReadAllText(path);
-        Leaderboard leaderboard = JsonUtility.FromJson<Leaderboard>(json);
-        leaderboard.SortByScoreDescending();
-        return leaderboard;
-    }
-
-    private static void SaveAsCSV(Leaderboard leaderboard, string path, EntryFormat format, bool allowDuplicates)
-    {
-        Leaderboard existing = new Leaderboard();
-
-        if (File.Exists(path))
-        {
-            existing = LoadFromCSV(path);
-            MergeEntries(existing, leaderboard, format, allowDuplicates);
-        }
-        else
-        {
-            existing = leaderboard;
-        }
-
-        List<string> lines = new List<string> { "PlayerName,Score,Time" };
-        foreach (var entry in existing.Entries)
-        {
-            string formattedTime = TimeSpan.FromSeconds(entry.Time).ToString(@"mm\:ss\:fff");
-            lines.Add($"{entry.PlayerName},{entry.Score},{formattedTime}");
-        }
-
-        File.WriteAllLines(path, lines);
-        Debug.Log("Saved CSV leaderboard to: " + path);
-    }
-
-    private static Leaderboard LoadFromCSV(string path)
-    {
-        Leaderboard leaderboard = new Leaderboard();
-        if (!File.Exists(path)) return leaderboard;
-
-        string[] lines = File.ReadAllLines(path);
-        for (int i = 1; i < lines.Length; i++)
-        {
-            string[] values = lines[i].Split(',');
-            if (values.Length == 3 &&
-                int.TryParse(values[1], out int score) &&
-                TimeSpan.TryParseExact(values[2], @"mm\:ss\:fff", null, out TimeSpan timeSpan))
+            switch (type)
             {
-                leaderboard.Entries.Add(new LeaderboardEntry(values[0], score, (float)timeSpan.TotalSeconds));
+                case LeaderboardType.JSON:
+                    SaveAsJSON(leaderboard, path, format, allowDuplicates);
+                    break;
+                case LeaderboardType.CSV:
+                    SaveAsCSV(leaderboard, path, format, allowDuplicates);
+                    break;
             }
         }
 
-        return leaderboard;
-    }
-
-    private static void MergeEntries(Leaderboard existing, Leaderboard incoming, EntryFormat format, bool allowDuplicates)
-    {
-        if (allowDuplicates)
+        public static Leaderboard LoadLeaderboard(string path, LeaderboardType type)
         {
-            existing.Entries.AddRange(incoming.Entries);
-            return;
+            return type switch
+            {
+                LeaderboardType.JSON => LoadFromJSON(path),
+                LeaderboardType.CSV => LoadFromCSV(path),
+                _ => new Leaderboard()
+            };
         }
 
-        foreach (var newEntry in incoming.Entries)
+        public static void EnsureFileExists(string path)
         {
-            var existingEntry = existing.Entries.FirstOrDefault(e => e.PlayerName == newEntry.PlayerName);
-            if (existingEntry != null)
+            if (!File.Exists(path))
             {
-                bool shouldReplace = false;
+                Debug.Log("Leaderboard file not found. Creating new file...");
+                File.WriteAllText(path, JsonUtility.ToJson(new Leaderboard(), true));
+            }
+        }
 
-                if (format == EntryFormat.NameScore || format == EntryFormat.NameScoreTime)
-                    shouldReplace = newEntry.Score > existingEntry.Score;
-                else if (format == EntryFormat.NameTime)
-                    shouldReplace = newEntry.Time < existingEntry.Time;
+        private static void SaveAsJSON(Leaderboard leaderboard, string path, EntryFormat format, bool allowDuplicates)
+        {
+            Leaderboard existing = File.Exists(path)
+                ? JsonUtility.FromJson<Leaderboard>(File.ReadAllText(path))
+                : new Leaderboard();
 
-                if (shouldReplace)
-                {
-                    existing.Entries.Remove(existingEntry);
-                    existing.Entries.Add(newEntry);
-                }
+            MergeEntries(existing, leaderboard, format, allowDuplicates);
+
+            File.WriteAllText(path, JsonUtility.ToJson(existing, true));
+            Debug.Log("Saved JSON leaderboard to: " + path);
+        }
+
+        private static Leaderboard LoadFromJSON(string path)
+        {
+            if (!File.Exists(path)) return new Leaderboard();
+
+            string json = File.ReadAllText(path);
+            Leaderboard leaderboard = JsonUtility.FromJson<Leaderboard>(json);
+            leaderboard.SortByScoreDescending();
+            return leaderboard;
+        }
+
+        private static void SaveAsCSV(Leaderboard leaderboard, string path, EntryFormat format, bool allowDuplicates)
+        {
+            Leaderboard existing = new Leaderboard();
+
+            if (File.Exists(path))
+            {
+                existing = LoadFromCSV(path);
+                MergeEntries(existing, leaderboard, format, allowDuplicates);
             }
             else
             {
-                existing.Entries.Add(newEntry);
+                existing = leaderboard;
+            }
+
+            List<string> lines = new List<string> { "PlayerName,Score,Time" };
+            foreach (var entry in existing.Entries)
+            {
+                string formattedTime = TimeSpan.FromSeconds(entry.Time).ToString(@"mm\:ss\:fff");
+                lines.Add($"{entry.PlayerName},{entry.Score},{formattedTime}");
+            }
+
+            File.WriteAllLines(path, lines);
+            Debug.Log("Saved CSV leaderboard to: " + path);
+        }
+
+        private static Leaderboard LoadFromCSV(string path)
+        {
+            Leaderboard leaderboard = new Leaderboard();
+            if (!File.Exists(path)) return leaderboard;
+
+            string[] lines = File.ReadAllLines(path);
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] values = lines[i].Split(',');
+                if (values.Length == 3 &&
+                    int.TryParse(values[1], out int score) &&
+                    TimeSpan.TryParseExact(values[2], @"mm\:ss\:fff", null, out TimeSpan timeSpan))
+                {
+                    leaderboard.Entries.Add(new LeaderboardEntry(values[0], score, (float)timeSpan.TotalSeconds));
+                }
+            }
+
+            return leaderboard;
+        }
+
+        private static void MergeEntries(Leaderboard existing, Leaderboard incoming, EntryFormat format, bool allowDuplicates)
+        {
+            if (allowDuplicates)
+            {
+                existing.Entries.AddRange(incoming.Entries);
+                return;
+            }
+
+            foreach (var newEntry in incoming.Entries)
+            {
+                var existingEntry = existing.Entries.FirstOrDefault(e => e.PlayerName == newEntry.PlayerName);
+                if (existingEntry != null)
+                {
+                    bool shouldReplace = false;
+
+                    if (format == EntryFormat.NameScore || format == EntryFormat.NameScoreTime)
+                        shouldReplace = newEntry.Score > existingEntry.Score;
+                    else if (format == EntryFormat.NameTime)
+                        shouldReplace = newEntry.Time < existingEntry.Time;
+
+                    if (shouldReplace)
+                    {
+                        existing.Entries.Remove(existingEntry);
+                        existing.Entries.Add(newEntry);
+                    }
+                }
+                else
+                {
+                    existing.Entries.Add(newEntry);
+                }
             }
         }
     }
