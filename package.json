@@ -1,6 +1,6 @@
 ﻿{
   "name": "com.ireshsampath.unity-assets.easy-leaderboard",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "Easy Leaderboard",
   "description": "Easy Leaderboard is a Unity asset designed to simplify the creation and display of player leaderboards. It offers flexible UI integration, sorting options, and out-of-the-box support for local and online data.",
   "unity": "6000.0",
