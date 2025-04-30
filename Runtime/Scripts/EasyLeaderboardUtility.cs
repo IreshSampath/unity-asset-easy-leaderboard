@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GAG.EasyLeaderboard
 {
-    public static class LeaderboardUtility
+    public static class EasyLeaderboardUtility
     {
         public enum LeaderboardType { JSON, CSV }
         public enum EntryFormat { NameScore, NameTime, NameScoreTime }
@@ -34,6 +34,19 @@ namespace GAG.EasyLeaderboard
                 LeaderboardType.CSV => LoadFromCSV(path),
                 _ => new Leaderboard()
             };
+        }
+
+        public static void DeleteLeaderboard(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+                Debug.Log("Cleared leaderboard file: " + path);
+            }
+            else
+            {
+                Debug.LogWarning("Leaderboard file not found: " + path);
+            }
         }
 
         public static void EnsureFileExists(string path)
@@ -122,27 +135,66 @@ namespace GAG.EasyLeaderboard
 
             foreach (var newEntry in incoming.Entries)
             {
-                var existingEntry = existing.Entries.FirstOrDefault(e => e.PlayerName == newEntry.PlayerName);
+                var existingEntry = existing.Entries
+                    .FirstOrDefault(e => e.PlayerName.Equals(newEntry.PlayerName, StringComparison.OrdinalIgnoreCase));
+
                 if (existingEntry != null)
                 {
-                    bool shouldReplace = false;
-
-                    if (format == EntryFormat.NameScore || format == EntryFormat.NameScoreTime)
-                        shouldReplace = newEntry.Score > existingEntry.Score;
-                    else if (format == EntryFormat.NameTime)
-                        shouldReplace = newEntry.Time < existingEntry.Time;
+                    bool shouldReplace = ShouldReplaceEntry(existingEntry, newEntry, format);
 
                     if (shouldReplace)
                     {
+                        // Replace existing entry
                         existing.Entries.Remove(existingEntry);
                         existing.Entries.Add(newEntry);
                     }
                 }
                 else
                 {
+                    // Add new unique entry
                     existing.Entries.Add(newEntry);
                 }
             }
+
+            //foreach (var newEntry in incoming.Entries)
+            //{
+            //    var existingEntry = existing.Entries.FirstOrDefault(e => e.PlayerName == newEntry.PlayerName);
+            //    if (existingEntry != null)
+            //    {
+            //        bool shouldReplace = false;
+
+            //        if (format == EntryFormat.NameScore)
+            //            shouldReplace = newEntry.Score > existingEntry.Score;
+            //        else if (format == EntryFormat.NameTime)
+            //            shouldReplace = newEntry.Time < existingEntry.Time;
+
+            //        if (shouldReplace)
+            //        {
+            //            existing.Entries.Remove(existingEntry);
+            //            existing.Entries.Add(newEntry);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        existing.Entries.Add(newEntry);
+            //    }
+            //}
+        }
+
+        private static bool ShouldReplaceEntry(LeaderboardEntry existing, LeaderboardEntry incoming, EntryFormat format)
+        {
+            return format switch
+            {
+                EntryFormat.NameScore => incoming.Score > existing.Score,
+
+                EntryFormat.NameTime => incoming.Time < existing.Time,
+
+                EntryFormat.NameScoreTime =>
+                    incoming.Score > existing.Score ||
+                    (incoming.Score == existing.Score && incoming.Time < existing.Time),
+
+                _ => false
+            };
         }
     }
 }

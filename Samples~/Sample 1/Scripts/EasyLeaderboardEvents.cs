@@ -3,7 +3,7 @@ using System;
 namespace GAG.EasyLeaderboard
 {
     [System.Serializable]
-    public class AppEvents
+    public class EasyLeaderboardEvents
     {
         //Add leaderboard entry
         public static event Action<LeaderboardEntry> OnLeaderboardEntryAdded;
