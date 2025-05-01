@@ -3714,7 +3714,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5363605089266295915}
   m_Layer: 0
-  m_Name: EasyLeaderboad
+  m_Name: EasyLeaderboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
