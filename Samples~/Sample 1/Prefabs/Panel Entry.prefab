@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7637545546800061327}
   - component: {fileID: 7706017604303043788}
   - component: {fileID: 5196567375208120017}
-  - component: {fileID: 2452509736130600397}
+  - component: {fileID: 1412281753905489139}
   m_Layer: 5
   m_Name: Text (TMP) Name
   m_TagString: Untagged
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2452509736130600397
+--- !u!114 &1412281753905489139
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,9 +150,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 240
+  m_MinWidth: 200
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 300
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 271900545538042371}
   - component: {fileID: 4678044646222897442}
   - component: {fileID: 2954819493599924285}
+  - component: {fileID: 138712563532670977}
   m_Layer: 5
   m_Name: Panel Entry
   m_TagString: Untagged
@@ -255,13 +256,33 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &138712563532670977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3861048264803811424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 450
+  m_MinHeight: -1
+  m_PreferredWidth: 700
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &4992737787311593682
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +294,7 @@ GameObject:
   - component: {fileID: 806267972309322857}
   - component: {fileID: 8692998233042721307}
   - component: {fileID: 7577119156346989107}
-  - component: {fileID: 6036725854745872015}
+  - component: {fileID: 8787352075932232470}
   m_Layer: 5
   m_Name: Text (TMP) Time
   m_TagString: Untagged
@@ -399,7 +420,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6036725854745872015
+--- !u!114 &8787352075932232470
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -412,9 +433,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 250
+  m_MinWidth: 150
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 200
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -430,7 +451,7 @@ GameObject:
   - component: {fileID: 3322602165337247531}
   - component: {fileID: 4887902159310694712}
   - component: {fileID: 1354711831312057822}
-  - component: {fileID: 5758755583658887325}
+  - component: {fileID: 3401508389116006300}
   m_Layer: 5
   m_Name: Text (TMP) Score
   m_TagString: Untagged
@@ -556,7 +577,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5758755583658887325
+--- !u!114 &3401508389116006300
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -569,9 +590,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 150
+  m_MinWidth: 100
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 200
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

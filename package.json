@@ -1,11 +1,11 @@
 ﻿{
   "name": "com.ireshsampath.unity-assets.easy-leaderboard",
-  "version": "1.0.3",
-  "displayName": "Easy Leaderboard",
-  "description": "Easy Leaderboard is a Unity asset designed to simplify the creation and display of player leaderboards based on score and time. It offers flexible UI integration, sorting options, and out-of-the-box support for local and online data.",
+  "version": "1.0.4",
+  "displayName": "EasyLeaderboard",
+  "description": "EasyLeaderboard is a Unity asset designed to simplify the creation and display of player leaderboards based on score and time. It offers flexible UI integration, sorting options, and out-of-the-box support for local and online data.",
   "unity": "6000.0",
   "unityRelease": "30f1",
-  "documentationUrl": "https://example.com/easy-leaderboard-docs",
+  "documentationUrl": "https://github.com/IreshSampath/unity-assets-easy-leaderboard/blob/main/README.md",
   "changelogUrl": "https://example.com/easy-leaderboard-changelog.html",
   "licensesUrl": "https://example.com/easy-leaderboard-licensing.html",
   "dependencies": {
@@ -13,8 +13,8 @@
   },
   "samples": [
     {
-      "displayName": "Easy Leaderboard Sample",
-      "description": "An example scene demonstrating how to integrate and use Easy Leaderboard.",
+      "displayName": "EasyLeaderboard Sample",
+      "description": "An example scene demonstrating how to integrate and use EasyLeaderboard.",
       "path": "Samples~/Sample 1"
     }
   ],
